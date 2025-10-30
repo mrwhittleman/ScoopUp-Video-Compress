@@ -1,0 +1,16 @@
+{
+  "name": "render-video-worker",
+  "version": "1.0.0",
+  "description": "FFmpeg worker for Supabase video processing on Render",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "health": "node -e \"require('http').get('http://localhost:' + (process.env.PORT||3000) + '/health', res => process.exit(res.statusCode===200?0:1));\""
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.45.4",
+    "node-fetch": "3.3.2",
+    "form-data": "4.0.0"
+  }
+}
