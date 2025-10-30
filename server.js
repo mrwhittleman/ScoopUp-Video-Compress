@@ -62,16 +62,3 @@ function readJson(req) {
     req.on("error", reject);
   });
 }
-import express from "express";
-const app = express();
-
-app.get("/health", (req, res) => {
-  res.status(200).json({ status: "ok" });
-});
-
-app.get("/", (req, res) => {
-  res.status(200).send("Service up");
-});
-
-const port = process.env.PORT || 8000;
-app.listen(port, () => console.log(`listening on ${port}`));
