@@ -30,6 +30,24 @@ export async function uploadToSupabase(localPath, destPath) {
   return { ...up, size };
 }
 
+export async function deleteFromSupabase(filePath) {
+  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error("Supabase env not configured");
+  }
+  
+  const { data, error } = await sb.storage
+    .from(OUTPUT_BUCKET)
+    .remove([filePath]);
+  
+  if (error) {
+    console.error("Error deleting original file:", error);
+    throw error;
+  }
+  
+  console.log(`Successfully deleted original file: ${filePath}`);
+  return data;
+}
+
 export async function postCallback(callbackUrl, callbackSecret, payload) {
   const res = await fetch(callbackUrl, {
     method: "POST",
