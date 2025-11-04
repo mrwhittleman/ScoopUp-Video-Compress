@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
-import { uploadToSupabase, postCallback } from "./supabase.js";
+import { uploadToSupabase, postCallback, deleteFromSupabase } from "./supabase.js";
 import fs from "node:fs/promises";
 
 export async function processJob(job) {
@@ -14,6 +14,17 @@ export async function processJob(job) {
   await runFFmpeg(args);
 
   const uploadRes = await uploadToSupabase(tmpOut, job.outputPath);
+
+// Delete the original video if original_path was provided
+if (job.originalPath) {
+  try {
+    await deleteFromSupabase(job.originalPath);
+    console.log(`Original video deleted: ${job.originalPath}`);
+  } catch (deleteError) {
+    console.error(`Failed to delete original video: ${deleteError.message}`);
+    // Don't fail the whole job if deletion fails
+  }
+}
 
   const outputs = [
     {
