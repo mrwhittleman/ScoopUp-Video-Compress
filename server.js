@@ -26,7 +26,7 @@ const server = http.createServer(async (req, res) => {
         jobId: body.job_id ?? null,
         ffmpegArgs: Array.isArray(body.ffmpeg_args) ? body.ffmpeg_args : null,
         callbackUrl: body.callback_url,
-        callbackSecret: body.callback_secret
+        callbackSecret: body.callback_secret,
         originalPath: body.original_path ?? null
       };
 
